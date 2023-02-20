@@ -76,9 +76,21 @@ function handleMessage(sender_psid, received_message) {
     // Check if the message contains text
     if (received_message.text) {
 
-        // Create the payload for a basic text message
-        response = {
-            "text": `You sent the message: "${received_message.text}". Now send me an image!`
+        if (received_message.text.includes('hi shop') || received_message.text.includes('chào shop')) {
+            const url = `https://graph.facebook.com/v12.0/${sender_psid}?fields=first_name&access_token=${PAGE_ACCESS_TOKEN}`;
+            request(url, (err, response, body) => {
+                if (!err && response.statusCode === 200) {
+                    const customerName = JSON.parse(body).first_name;
+                    // Reply with "Hello [customer's name]"
+                    response = {
+                        text: `Xin chào ${customerName}, cảm ơn bạn đã liên hệ, tôi có thể giúp gì được cho bạn?`
+                    };
+                }
+            });
+        } else if (received_message.text.includes('shop ơi') || received_message.text.includes('alo')) {
+            response = {
+                text: `Mình nghe ạ`
+            };
         }
     } else if (received_message.attachments) {
         // Get the URL of the message attachment
