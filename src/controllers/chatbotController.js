@@ -30,7 +30,7 @@ let postWebhook = (req, res) => {
             // Check if the event is a message or postback and
             // pass the event to the appropriate handler function
             if (webhook_event.message) {
-                handleMessage(sender_psid, webhook_event.message);
+                handleMessage(sender_psid, webhook_event.message, webhook_event.sender.name);
             } else if (webhook_event.postback) {
                 handlePostback(sender_psid, webhook_event.postback);
             }
@@ -69,7 +69,7 @@ let getWebhook = (req, res) => {
 };
 
 // Handles messages events
-function handleMessage(sender_psid, received_message) {
+function handleMessage(sender_psid, received_message, name) {
 
     let response;
 
@@ -77,16 +77,9 @@ function handleMessage(sender_psid, received_message) {
     if (received_message.text) {
 
         if (received_message.text.includes('hi shop') || received_message.text.includes('chào shop')) {
-            const url = `https://graph.facebook.com/v12.0/${sender_psid}?fields=first_name&access_token=${PAGE_ACCESS_TOKEN}`;
-            request(url, (err, response, body) => {
-                if (!err && response.statusCode === 200) {
-                    const customerName = JSON.parse(body).first_name;
-                    // Reply with "Hello [customer's name]"
-                    response = {
-                        text: `Xin chào ${customerName}, cảm ơn bạn đã liên hệ, tôi có thể giúp gì được cho bạn?`
-                    };
-                }
-            });
+            response = {
+                text: `Xin chào ${name}, cảm ơn bạn đã liên hệ, tôi có thể giúp gì được cho bạn?`
+            };
         } else if (received_message.text.includes('shop ơi') || received_message.text.includes('alo')) {
             response = {
                 text: `Mình nghe ạ`
