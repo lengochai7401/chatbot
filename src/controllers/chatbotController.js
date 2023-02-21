@@ -30,7 +30,7 @@ let postWebhook = (req, res) => {
             // Check if the event is a message or postback and
             // pass the event to the appropriate handler function
             if (webhook_event.message) {
-                handleMessage(sender_psid, webhook_event.message, webhook_event.sender.name.split(' ')[0]);
+                handleMessage(sender_psid, webhook_event.message);
             } else if (webhook_event.postback) {
                 handlePostback(sender_psid, webhook_event.postback);
             }
@@ -69,7 +69,7 @@ let getWebhook = (req, res) => {
 };
 
 // Handles messages events
-function handleMessage(sender_psid, received_message, name) {
+function handleMessage(sender_psid, received_message) {
 
     let response;
 
@@ -78,7 +78,7 @@ function handleMessage(sender_psid, received_message, name) {
 
         if (received_message.text.includes('hi shop') || received_message.text.includes('chào shop')) {
             response = {
-                text: `Xin chào ${name}, cảm ơn bạn đã liên hệ, tôi có thể giúp gì được cho bạn?`
+                text: `Xin chào, cảm ơn bạn đã liên hệ, tôi có thể giúp gì được cho bạn?`
             };
         } else if (received_message.text.includes('shop ơi') || received_message.text.includes('alo')) {
             response = {
