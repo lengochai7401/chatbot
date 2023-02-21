@@ -76,6 +76,12 @@ function handleMessage(sender_psid, received_message) {
     // Check if the message contains text
     if (received_message.text) {
 
+        const heightRegex = /(\d+)m(\d+)/;
+        const weightRegex = /(\d+)kg/;
+
+        const heightMatch = received_message.text.match(heightRegex);
+        const weightMatch = received_message.text.match(weightRegex);
+
         if (received_message.text.includes('hi shop') || received_message.text.includes('chào shop')) {
             response = {
                 text: `Xin chào, cảm ơn bạn đã liên hệ, tôi có thể giúp gì được cho bạn?`
@@ -84,6 +90,30 @@ function handleMessage(sender_psid, received_message) {
             response = {
                 text: `Mình nghe ạ`
             };
+        } else if (heightMatch && weightMatch) {
+            temp = `${heightMatch[1]}m${heightMatch[2]} ${weightMatch[1]}kg `;
+            response = () => {
+                const heightInCm = parseInt(heightMatch[1]) * 100 + parseInt(heightMatch[2]);
+                const weight = parseInt(weightMatch[1]);
+
+                if (heightInCm < 165 && heightInCm > 150 && weight < 60 && weight > 50) {
+                    return {
+                        text: temp + 'lấy size S được ạ'
+                    }
+                } else if (heightInCm < 172 && heightInCm > 163 && weight < 70 && weight > 60) {
+                    return {
+                        text: temp + 'lấy size M được ạ'
+                    }
+                } else if (heightInCm < 178 && heightInCm > 170 && weight < 77 && weight > 68) {
+                    return {
+                        text: temp + 'lấy size L được ạ'
+                    }
+                } else if (heightInCm < 190 && heightInCm > 176 && weight < 85 && weight > 75) {
+                    return {
+                        text: temp + 'lấy size XL được ạ'
+                    }
+                }
+            }
         }
     } else if (received_message.attachments) {
         // Get the URL of the message attachment
