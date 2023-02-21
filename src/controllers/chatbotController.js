@@ -170,7 +170,7 @@ function callSendAPI(sender_psid, response) {
 }
 
 function checSize(heightMatch, weightMatch) {
-    cc = `${heightMatch[1]}m${heightMatch[2]} ${weightMatch[1]}kg `;
+    const cc = `${heightMatch[1]}m${heightMatch[2]} ${weightMatch[1]}kg `;
     const heightInCm = parseInt(heightMatch[1]) * 100 + parseInt(heightMatch[2]);
     const weight = parseInt(weightMatch[1]);
 
