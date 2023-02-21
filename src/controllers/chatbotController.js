@@ -92,7 +92,7 @@ function handleMessage(sender_psid, received_message) {
             };
         } else if (heightMatch && weightMatch) {
             temp = `${heightMatch[1]}m${heightMatch[2]} ${weightMatch[1]}kg `;
-            response = () => {
+            response = (temp) => {
                 const heightInCm = parseInt(heightMatch[1]) * 100 + parseInt(heightMatch[2]);
                 const weight = parseInt(weightMatch[1]);
 
